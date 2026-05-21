@@ -287,7 +287,29 @@
   .leaflet-container {
     min-height: 280px !important;
     max-height: 360px !important;
+    position: relative !important;
+    z-index: 0 !important;
   }
+  /* Leaflet por padrão usa z-index 200–700 nas panes/controles, o que se
+     sobrepõe à sidebar mobile (z-index 90) e ao backdrop (85). Forçamos
+     tudo abaixo desses valores. */
+  .leaflet-pane,
+  .leaflet-top,
+  .leaflet-bottom,
+  .leaflet-control,
+  .leaflet-tile,
+  .leaflet-marker-icon,
+  .leaflet-marker-shadow,
+  .leaflet-tile-pane,
+  .leaflet-overlay-pane,
+  .leaflet-shadow-pane,
+  .leaflet-marker-pane,
+  .leaflet-popup-pane,
+  .leaflet-tooltip-pane {
+    z-index: 1 !important;
+  }
+  .leaflet-popup-pane,
+  .leaflet-tooltip-pane { z-index: 2 !important; }
 
   /* ===== Tweaks panel — vira full-width ===== */
   .tweaks-panel { width: 100vw !important; max-width: 100vw !important; }

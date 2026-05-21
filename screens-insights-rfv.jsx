@@ -1,5 +1,5 @@
 // ============================================================
-// VOZZ CRM — Insights RFV (Recência · Frequência · Valor)
+// 3LACKD CRM — Insights RFV (Recência · Frequência · Valor)
 // Implementa o cálculo do dashboard RFV de Vendas Internas:
 // Score RFV, categorias (Ativo/Alerta/Inativo/First Buy), carteira livre,
 // e a Matriz RFV com as 5 personas (Estrelas, Vacas Leiteiras,

@@ -20,6 +20,14 @@ function App() {
   const [msgContext, setMsgContext] = React.useState(null);
   const [showNotif, setShowNotif] = React.useState(false);
   const [showNew, setShowNew] = React.useState(false);
+  const [mobileMenu, setMobileMenu] = React.useState(false);
+  const isMobile = React.useSyncExternalStore(
+    (cb) => { const mq = window.matchMedia("(max-width: 900px)"); mq.addEventListener("change", cb); return () => mq.removeEventListener("change", cb); },
+    () => window.matchMedia("(max-width: 900px)").matches,
+    () => false
+  );
+  // Fecha o menu mobile ao trocar de rota
+  React.useEffect(() => { setMobileMenu(false); }, [route]);
   const NOTIFICATIONS = [
     { id: "n1", title: "MetalForma Indústria", desc: "Proposta aceita — agendar kickoff", time: "agora" },
     { id: "n2", title: "Tecidos Cipriani",    desc: "28 dias sem contato — risco de churn", time: "2h" },
@@ -113,7 +121,10 @@ function App() {
   const flush = flushRoutes.includes(route);
 
   return (
-    <div className="app">
+    <div className="app" data-mobile-menu={mobileMenu ? "open" : "closed"}>
+      {/* Backdrop mobile (clique fecha o drawer) */}
+      <div className="mobile-backdrop" onClick={() => setMobileMenu(false)}/>
+
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-brand" style={{ justifyContent: "center", padding: "20px 14px 18px" }}>
@@ -167,6 +178,9 @@ function App() {
       {/* Main */}
       <main className="main">
         <header className="topbar">
+          <button className="mobile-burger" onClick={() => setMobileMenu(m => !m)} aria-label="Menu">
+            {mobileMenu ? "✕" : "☰"}
+          </button>
           <div className="topbar-crumbs">
             <span>Workspace</span>
             <span className="sep">/</span>

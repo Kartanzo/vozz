@@ -1,175 +1,304 @@
 /* ============================================================
-   VOZZ CRM — Otimizações Mobile / Android
-   Aplica em telas ≤ 900px. Sidebar vira drawer com hambúrguer,
-   layouts em coluna única, tabelas com scroll horizontal.
+   VOZZ CRM — Otimizações Mobile / Android (versão 2)
+   Layout denso, sem espaços vazios, alinhamento corrigido.
    ============================================================ */
 
-/* Botão hambúrguer — só aparece no mobile */
 .mobile-burger { display: none; }
 .mobile-backdrop { display: none; }
 
 @media (max-width: 900px) {
 
+  /* ===== Eliminar scroll horizontal global ===== */
+  html, body, #root, .app, .main, .content {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  body { font-size: 13px; }
+
   /* ===== Layout principal ===== */
   .app {
     grid-template-columns: 1fr !important;
+    display: block !important;
+  }
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
   }
 
-  /* Sidebar vira drawer deslizante */
+  /* ===== Sidebar drawer ===== */
   .sidebar {
     position: fixed !important;
     top: 0; left: 0; bottom: 0;
-    width: 280px;
+    width: 260px;
     z-index: 90;
     transform: translateX(-100%);
-    transition: transform .25s ease;
+    transition: transform .22s ease;
     box-shadow: 4px 0 24px rgba(0,0,0,.25);
+    overflow-y: auto;
   }
-  .app[data-mobile-menu="open"] .sidebar {
-    transform: translateX(0);
-  }
-
-  /* Backdrop atrás do drawer aberto */
+  .app[data-mobile-menu="open"] .sidebar { transform: translateX(0); }
   .app[data-mobile-menu="open"] .mobile-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 85;
+    display: block; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 85;
   }
+  .sidebar-brand img { height: 56px !important; }
+  .sidebar-brand { padding: 14px 14px 10px !important; }
 
-  /* Hambúrguer visível só no mobile, no topbar */
+  /* ===== Hambúrguer ===== */
   .mobile-burger {
     display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 38px; height: 38px;
+    align-items: center; justify-content: center;
+    width: 36px; height: 36px;
     border-radius: 8px;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
     cursor: pointer;
-    font-size: 20px;
-    margin-right: 8px;
+    font-size: 18px;
+    flex-shrink: 0;
   }
 
-  /* ===== Topbar ===== */
+  /* ===== Topbar compacta ===== */
   .topbar {
-    padding: 10px 12px !important;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding: 8px 10px !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    overflow-x: auto;
   }
-  .topbar-crumbs { font-size: 12px; flex: 1; min-width: 0; }
-  .topbar-crumbs .sep,
+  .topbar-crumbs {
+    font-size: 12px;
+    flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .topbar-crumbs .sep:not(:last-of-type),
   .topbar-crumbs span:not(:last-child) { display: none; }
-  .topbar-actions { gap: 6px; flex-wrap: wrap; }
-  .topbar-actions .toggle-group button { padding: 6px 10px; font-size: 11px; }
+  .topbar-actions {
+    gap: 4px !important;
+    flex-shrink: 0;
+  }
+  .topbar-actions .toggle-group button {
+    padding: 5px 8px !important;
+    font-size: 10.5px !important;
+    min-height: 30px;
+  }
+  .topbar-actions .icon-btn {
+    width: 32px !important; height: 32px !important;
+  }
+  .topbar-actions .btn-primary {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
 
-  /* ===== Conteúdo ===== */
+  /* ===== Conteúdo — padding mínimo ===== */
   .content {
-    padding: 14px !important;
-  }
-  .section-title {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 10px;
-  }
-  .section-title h2 { font-size: 18px !important; }
-
-  /* ===== Grids → coluna única ===== */
-  .kpi-grid,
-  .dash-grid-2,
-  .dash-grid-3,
-  .settings-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-  /* Grid genérico de 2 colunas que aparece em várias telas */
-  [style*="grid-template-columns: 1fr 1fr"],
-  [style*="grid-template-columns: 2fr 1fr"],
-  [style*="grid-template-columns: minmax(0, 1fr) 340px"],
-  [style*="grid-template-columns: minmax(0,1fr) 380px"],
-  [style*="grid-template-columns: minmax(0, 1fr) 380px"] {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* ===== Cards / filtros ===== */
-  .card { border-radius: 12px; }
-  .filters {
-    flex-wrap: wrap !important;
-    gap: 8px;
     padding: 10px !important;
   }
+  .content.flush { padding: 0 !important; }
+
+  /* ===== Titulos de seção ===== */
+  .section-title {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+  .section-title h2 { font-size: 17px !important; margin: 0 !important; }
+  .section-title .sub { font-size: 11.5px !important; }
+  .section-title .toggle-group { width: 100%; overflow-x: auto; }
+
+  /* ===== TODOS os grids → coluna única ===== */
+  .kpi-grid,
+  .dash-grid,
+  .dash-grid-2,
+  .dash-grid-3,
+  .settings-grid,
+  .insights-grid,
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  /* Pega TODOS os inline grids comuns no projeto */
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* ===== Cards mais compactos ===== */
+  .card { border-radius: 10px; }
+  .card-header {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+  .card-title { font-size: 13px !important; }
+  .card-sub { font-size: 11px !important; }
+
+  /* Cards com padding inline grande → reduz */
+  .card[style*="padding: 20"],
+  .card[style*="padding: 18"],
+  .card[style*="padding: 16"] {
+    padding: 12px !important;
+  }
+
+  /* ===== KPIs mais compactos ===== */
+  .kpi-tile, .kpi-card { padding: 12px !important; }
+  .kpi-value { font-size: 20px !important; }
+  .kpi-label { font-size: 10.5px !important; }
+  .kpi-delta { font-size: 11px !important; }
+  .kpi-spark { height: 28px !important; }
+  .insight-value { font-size: 22px !important; }
+  .insight-title { font-size: 10px !important; }
+  .insight-subtitle { font-size: 10.5px !important; }
+
+  /* ===== Filtros ===== */
+  .filters {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding: 8px !important;
+    border-radius: 10px !important;
+  }
   .filters .input,
-  .filters select {
-    flex: 1 1 calc(50% - 4px);
-    min-width: 0;
+  .filters select,
+  .filters .sidebar-search {
+    flex: 1 1 calc(50% - 3px) !important;
+    min-width: 0 !important;
+    height: 34px !important;
+    font-size: 12px !important;
   }
-  .toggle-group { flex-wrap: wrap; }
+  .filters .toggle-group {
+    flex: 1 1 100% !important;
+    order: -1;
+  }
+  .filters .row.gap-2 { flex-wrap: wrap; }
+  .filter-chip {
+    font-size: 11px !important;
+    padding: 5px 9px !important;
+  }
 
-  /* ===== Tabelas → scroll horizontal ===== */
+  /* ===== Tabelas → fonte menor + scroll horizontal limpo ===== */
   .table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    font-size: 12px;
+    font-size: 11.5px !important;
+    width: 100% !important;
   }
-  .table th, .table td { padding: 8px 10px; }
-
-  /* ===== Kanban ===== */
-  .kanban {
+  .table th, .table td {
+    padding: 7px 8px !important;
+    white-space: nowrap;
+  }
+  .table-wrapper, .card > .table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* ===== Kanban: 1 coluna ocupa quase a tela toda ===== */
+  .kanban {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
+    padding: 8px !important;
+    gap: 10px !important;
   }
   .kanban-col {
-    flex: 0 0 85vw !important;
-    max-width: 85vw !important;
+    flex: 0 0 88vw !important;
+    max-width: 88vw !important;
+    min-width: 88vw !important;
     scroll-snap-align: start;
+    padding: 10px !important;
   }
+  .kanban-card { padding: 10px !important; }
+  .kanban-card-co { font-size: 12px !important; }
+  .kanban-card-deal { font-size: 13px !important; }
 
-  /* ===== Calendar (Agenda) ===== */
+  /* ===== Agenda ===== */
   .cal-grid {
-    grid-template-columns: 50px repeat(5, minmax(110px, 1fr)) !important;
+    grid-template-columns: 40px repeat(5, 90px) !important;
     overflow-x: auto;
+    min-width: 100%;
   }
+  .cal-head, .cal-time, .cal-cell {
+    font-size: 10.5px !important;
+    padding: 4px !important;
+  }
+  .cal-event { font-size: 10.5px !important; padding: 4px 6px !important; }
 
-  /* ===== Modais ===== */
+  /* ===== Modais full-screen-ish ===== */
   .modal, .modal-large {
-    width: 95vw !important;
-    max-width: 95vw !important;
-    max-height: 92vh;
+    width: 96vw !important;
+    max-width: 96vw !important;
+    max-height: 94vh !important;
+    margin: 0 !important;
   }
-  .modal-body { padding: 14px !important; }
-  .modal-body [style*="grid-template-columns"] {
-    grid-template-columns: 1fr !important;
-  }
+  .modal-header { padding: 12px !important; }
+  .modal-body { padding: 12px !important; }
+  .modal-footer { padding: 10px !important; flex-wrap: wrap; gap: 6px; }
+  .modal-body [style*="grid"] { grid-template-columns: 1fr !important; }
 
-  /* ===== Botões mais tap-friendly ===== */
+  /* ===== Botões tap-friendly ===== */
   .btn.btn-sm {
-    min-height: 36px;
-    padding: 6px 12px;
-    font-size: 12.5px;
+    min-height: 34px;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
   }
-  .icon-btn {
-    min-width: 36px;
-    min-height: 36px;
+  .icon-btn { min-width: 34px; min-height: 34px; }
+
+  /* ===== Detail hero (página da conta) ===== */
+  .detail-hero {
+    padding: 14px !important;
+  }
+  .detail-hero h1 { font-size: 18px !important; }
+  .account-avatar {
+    width: 48px !important; height: 48px !important;
+    font-size: 16px !important; border-radius: 12px !important;
+  }
+  .detail-tab {
+    font-size: 11.5px !important;
+    padding: 8px 10px !important;
   }
 
-  /* ===== Esconde colunas auxiliares pouco úteis em mobile ===== */
-  .hide-mobile { display: none !important; }
+  /* ===== Roteirização / Coverage ===== */
+  .route-stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .route-stat { padding: 10px !important; }
+  .route-stat .v { font-size: 16px !important; }
+  .route-stat .l { font-size: 10px !important; }
 
-  /* Mapa Leaflet — altura mínima */
-  .leaflet-container { min-height: 280px !important; }
+  /* Mapa Leaflet */
+  .leaflet-container {
+    min-height: 280px !important;
+    max-height: 360px !important;
+  }
 
-  /* Tweaks panel — full-width quando aberto */
+  /* ===== Tweaks panel — vira full-width ===== */
   .tweaks-panel { width: 100vw !important; max-width: 100vw !important; }
+
+  /* ===== Notificações popup ===== */
+  .topbar-actions [style*="width: 340"] {
+    width: calc(100vw - 20px) !important;
+    right: -8px !important;
+  }
+
+  /* Modal +Novo */
+  [style*="placeItems: \"center\""] > .card[style*="width: 420"] {
+    width: 92vw !important;
+  }
+
+  /* ===== Esconde elementos não essenciais ===== */
+  .hide-mobile { display: none !important; }
+  .sidebar-search kbd { display: none; }
 }
 
-/* Smartphones pequenos */
+/* Smartphones menores */
 @media (max-width: 480px) {
-  .topbar-actions .btn:not(.btn-primary) { display: none; }
   .topbar-actions .toggle-group { display: none; }
-  .kpi-tile .kpi-value { font-size: 22px !important; }
+  .topbar-actions .icon-btn[title="Configurações"],
+  .topbar-actions .icon-btn[title="Modo claro"],
+  .topbar-actions .icon-btn[title="Modo escuro"] { display: none; }
   .section-title h2 { font-size: 16px !important; }
+  .kpi-value, .insight-value { font-size: 19px !important; }
+  .card-title { font-size: 12.5px !important; }
+  .table { font-size: 11px !important; }
+  .table th, .table td { padding: 6px !important; }
+  .kanban-col { flex-basis: 92vw !important; max-width: 92vw !important; min-width: 92vw !important; }
 }
